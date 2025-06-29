@@ -1,58 +1,101 @@
-# Python virtual environments
+# -------------------
+# Logs
+# -------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# -------------------
+# Dependency folders
+# -------------------
+node_modules/
 venv/
-backend/venv/
-.env/
-
-
-
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environment
-venv/
-env/
-ENV/
 .venv/
+env/
+.env/
+backend/.env
+frontend/.env
 
-# Jupyter Notebook checkpoints
+# -------------------
+# Python cache
+# -------------------
+*.py[cod]
+__pycache__/
+**/__pycache__/
+
+# -------------------
+# Jupyter Notebooks Checkpoints
+# -------------------
 .ipynb_checkpoints/
 
-# VSCode settings
-.vscode/
-
-# Logs and metadata
-*.log
-logs/
-
-# OS-specific files
-.DS_Store
-Thumbs.db
-
-# Python environment files
-*.egg
-*.egg-info/
-dist/
-build/
-
-# # Model files (optional if too large)
-# *.h5
-# *.pth
-# *.ckpt
-
-# Uploaded files or temporary data
-
-*.tmp
-*.bak
-
-# Streamlit-specific
+# -------------------
+# Streamlit & Streamlit-specific files
+# -------------------
 .streamlit/config.toml
 .streamlit/secrets.toml
 
-# # Runtime files
-# runtime.txt
+# -------------------
+# VS Code
+# -------------------
+.vscode/*
+!.vscode/extensions.json
 
-# User-specific project files
-*.swp
-*~
+# -------------------
+# JetBrains IDEs
+# -------------------
+.idea/
+
+# -------------------
+# System files
+# -------------------
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# -------------------
+# Build & dist
+# -------------------
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# -------------------
+# Coverage & testing
+# -------------------
+coverage/
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache/
+
+# -------------------
+# Database & local secrets
+# -------------------
+*.sqlite3
+*.db
+*.pkl
+*.joblib
+
+# -------------------
+# Lock files (optional depending on your setup)
+# -------------------
+Pipfile.lock
+poetry.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# -------------------
+# Misc
+# -------------------
+*.bak
+*.tmp
+*.orig
+*.old

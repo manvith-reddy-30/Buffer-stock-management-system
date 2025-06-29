@@ -1,5 +1,7 @@
+# -------------------
 # Logs
-logs
+# -------------------
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,29 +9,93 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# -------------------
+# Dependency folders
+# -------------------
+node_modules/
+venv/
+.venv/
+env/
+.env/
+backend/.env
+frontend/.env
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-**/.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-
-__pycache__/
-*.pyc
-
-
-# Python
-*.pyc
+# -------------------
+# Python cache
+# -------------------
+*.py[cod]
 __pycache__/
 **/__pycache__/
+
+# -------------------
+# Jupyter Notebooks Checkpoints
+# -------------------
+.ipynb_checkpoints/
+
+# -------------------
+# Streamlit & Streamlit-specific files
+# -------------------
+.streamlit/config.toml
+.streamlit/secrets.toml
+
+# -------------------
+# VS Code
+# -------------------
+.vscode/*
+!.vscode/extensions.json
+
+# -------------------
+# JetBrains IDEs
+# -------------------
+.idea/
+
+# -------------------
+# System files
+# -------------------
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# -------------------
+# Build & dist
+# -------------------
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# -------------------
+# Coverage & testing
+# -------------------
+coverage/
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache/
+
+# -------------------
+# Database & local secrets
+# -------------------
+*.sqlite3
+*.db
+*.pkl
+*.joblib
+
+# -------------------
+# Lock files (optional depending on your setup)
+# -------------------
+Pipfile.lock
+poetry.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# -------------------
+# Misc
+# -------------------
+*.bak
+*.tmp
+*.orig
+*.old
