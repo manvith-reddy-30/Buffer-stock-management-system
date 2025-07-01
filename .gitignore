@@ -17,13 +17,13 @@ venv/
 .venv/
 env/
 .env/
-backend/.env
-frontend/.env
 
-# -------------------
-# Python cache
-# -------------------
-*.py[cod]
+
+source venv/bin/activate 
+
+uvicorn main:app --reload  
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
 **/__pycache__/
 
@@ -99,3 +99,4 @@ pnpm-lock.yaml
 *.tmp
 *.orig
 *.old
+backend/.env

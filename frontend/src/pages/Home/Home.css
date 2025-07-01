@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #090909;
+    background-color: #ffffff;
     margin: 0;
     padding: 0;
   }
@@ -11,7 +11,7 @@ body {
   }
   
   button {
-    background-color: #007bff;
+    background-color: #769bc2;
     color: white;
     border: none;
     padding: 10px 20px;
