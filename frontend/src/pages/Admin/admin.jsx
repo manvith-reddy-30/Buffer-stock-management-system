@@ -1,6 +1,6 @@
 import React from 'react'
 import CityForm from '../../components/CityForm'
-import './admin.css' // Import the CSS file
+import './admin.css' 
 
 const Admin = () => {
   return (

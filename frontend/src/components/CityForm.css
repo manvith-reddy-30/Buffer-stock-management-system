@@ -1,0 +1,147 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .city-form-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows forms to wrap to the next line on smaller screens */
+    justify-content: center;
+    gap: 30px; /* Space between the form cards */
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  /* Alert Message Styles */
+  .alert {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px; /* Space below the alert */
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .alert.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .alert.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+  
+  /* Form Card Styles */
+  .form-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    flex: 1; /* Allows forms to grow and shrink */
+    min-width: 350px; /* Minimum width before wrapping */
+    max-width: 500px; /* Maximum width for each form */
+  }
+  
+  .form-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
+  
+  /* Form Group (Label + Input) Styles */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+  }
+  
+  .form-control {
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding in width */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+  }
+  
+  /* Specific styling for select and date inputs for better appearance */
+  select.form-control {
+    appearance: none; /* Remove default browser styling for select */
+    -webkit-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
+    cursor: pointer;
+  }
+  
+  input[type="date"].form-control::-webkit-inner-spin-button,
+  input[type="date"].form-control::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+  
+  
+  /* Submit Button Styles */
+  .submit-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .submit-button:active {
+    background-color: #004085;
+    transform: translateY(0);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .city-form-container {
+      flex-direction: column; /* Stack forms vertically on small screens */
+      align-items: center;
+    }
+  
+    .form-card {
+      min-width: unset; /* Remove min-width to allow full width on small screens */
+      width: 95%; /* Take up most of the width */
+    }
+  }

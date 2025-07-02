@@ -100,3 +100,4 @@ pnpm-lock.yaml
 *.orig
 *.old
 backend/.env
+frontend/.env
