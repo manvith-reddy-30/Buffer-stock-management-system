@@ -19,7 +19,8 @@ env/
 .env/
 
 
-source venv/bin/activate 
+source venv/bin/activate
+source venv/Scripts/activate - git bash
 
 uvicorn main:app --reload  
 
