@@ -12,7 +12,7 @@ load_dotenv(dotenv_path=env_path)
 MODEL = os.getenv("MODEL")
 
 from google.adk.agents.llm_agent import LlmAgent
-from prompt import PROMPT
+from agents.weatherAgent.rangareddy.prompt import PROMPT
 from google.adk.tools import google_search
 
 root_agent = LlmAgent(
