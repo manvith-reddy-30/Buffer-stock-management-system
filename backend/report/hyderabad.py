@@ -152,6 +152,9 @@ async def hyderabad_report(
         f"- Warangal: {warangal_weather_report}\n"
     )
 
+    await session_service.create_session(
+        app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID
+    )
     # Run the agent
     runner = Runner(
         agent=root_agent, app_name=APP_NAME, session_service=session_service

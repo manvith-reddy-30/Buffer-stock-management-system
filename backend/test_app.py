@@ -1,79 +1,89 @@
-import pytest
-from httpx import AsyncClient
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from typing import Dict
+from pydantic import BaseModel
+import uvicorn
 
-# Assuming this is your main FastAPI app file
-from backend.main import (
-    app,
-)  # Adjust the import if your app entry point is named differently
+from report.hyderabad import hyderabad_report
+from report.warangal import warangal_report
+from report.nalgonda import nalgonda_report
+from report.medak import medak_report
+from report.rangareddy import rangareddy_report
+from report.weather import weather_report
 
-# Sample mock input data
-mock_data = {
-    "hyderabad": {
-        "last_week_actual": [24, 25, 26, 25, 27, 26, 25],
-        "next_week_pred": [26, 27, 28, 28, 29, 30, 31],
-    },
-    "nalgonda": {
-        "last_week_actual": [23, 24, 25, 25, 26, 25, 24],
-        "next_week_pred": [25, 26, 27, 27, 28, 29, 30],
-    },
-    "rangareddy": {
-        "last_week_actual": [22, 23, 23, 24, 24, 25, 25],
-        "next_week_pred": [25, 25, 26, 27, 27, 28, 28],
-    },
-    "medak": {
-        "last_week_actual": [21, 22, 22, 23, 24, 24, 25],
-        "next_week_pred": [24, 25, 26, 26, 27, 28, 29],
-    },
-    "warangal": {
-        "last_week_actual": [26, 27, 27, 28, 28, 29, 30],
-        "next_week_pred": [30, 31, 31, 32, 32, 33, 33],
-    },
-    "buffer_quantity": {
-        "hyderabad": 150,
-        "nalgonda": 120,
-        "rangareddy": 130,
-        "medak": 100,
-        "warangal": 180,
-    },
-}
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "district", ["hyderabad", "nalgonda", "rangareddy", "medak", "warangal"]
+# --------------------- FastAPI Setup ---------------------
+app = FastAPI(
+    title="Buffer Stock Report & Weather",
+    description="Tomato price buffer stock and weather report endpoints for 5 Telangana districts",
+    version="1.0.0",
 )
-async def test_analysis_endpoints(district):
-    async with AsyncClient(app=app, base_url="http://test") as ac:
-        payload = {
-            f"{district}_last_week_actual": mock_data[district]["last_week_actual"],
-            f"{district}_next_week_pred": mock_data[district]["next_week_pred"],
-        }
 
-        # Add other districts' data depending on which endpoint is being tested
-        for other in ["hyderabad", "nalgonda", "rangareddy", "medak", "warangal"]:
-            if other != district:
-                payload[f"{other}_last_week_actual"] = mock_data[other][
-                    "last_week_actual"
-                ]
-                payload[f"{other}_next_week_pred"] = mock_data[other]["next_week_pred"]
-
-        payload["buffer_quantity"] = mock_data["buffer_quantity"]
-
-        response = await ac.post(f"/analysis/{district}", json=payload)
-        assert response.status_code == 200
-        assert "buffer_stock_report" in response.json()
-        assert isinstance(response.json()["buffer_stock_report"], str)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "district", ["hyderabad", "nalgonda", "rangareddy", "medak", "warangal"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
-async def test_weather_endpoints(district):
-    async with AsyncClient(app=app, base_url="http://test") as ac:
-        response = await ac.get(f"/weather/{district}")
-        assert response.status_code == 200
-        assert isinstance(response.json(), dict)
-        assert "forecast" in response.json()
-        assert isinstance(response.json()["forecast"], str)
+
+
+# --------------------- Request Schema ---------------------
+class BufferInput(BaseModel):
+    warangal_last_week_actual: list[float]
+    warangal_next_week_pred: list[float]
+    hyderabad_last_week_actual: list[float]
+    hyderabad_next_week_pred: list[float]
+    nalgonda_last_week_actual: list[float]
+    nalgonda_next_week_pred: list[float]
+    rangareddy_last_week_actual: list[float]
+    rangareddy_next_week_pred: list[float]
+    medak_last_week_actual: list[float]
+    medak_next_week_pred: list[float]
+    buffer_quantity: Dict[str, float]
+
+
+# --------------------- Weather Endpoint ---------------------
+@app.get("/weather/{place}")
+async def get_weather(place: str):
+    try:
+        report = await weather_report(place.lower())
+        return {"place": place, "forecast": report}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# --------------------- Buffer Stock Endpoints ---------------------
+@app.post("/analysis/hyderabad")
+async def get_hyderabad_report(data: BufferInput):
+    report = await hyderabad_report(**data.dict())
+    return {"report": report}
+
+
+@app.post("/analysis/warangal")
+async def get_warangal_report(data: BufferInput):
+    report = await warangal_report(**data.dict())
+    return {"report": report}
+
+
+@app.post("/analysis/nalgonda")
+async def get_nalgonda_report(data: BufferInput):
+    report = await nalgonda_report(**data.dict())
+    return {"report": report}
+
+
+@app.post("/analysis/medak")
+async def get_medak_report(data: BufferInput):
+    report = await medak_report(**data.dict())
+    return {"report": report}
+
+
+@app.post("/analysis/rangareddy")
+async def get_rangareddy_report(data: BufferInput):
+    report = await rangareddy_report(**data.dict())
+    return {"report": report}
+
+
+# --------------------- Run the app (optional) ---------------------
+# Run with: uvicorn test_app:app --reload
+if __name__ == "__main__":
+    uvicorn.run("test_app:app", host="0.0.0.0", port=9000, reload=True)

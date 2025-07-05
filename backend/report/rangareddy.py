@@ -21,31 +21,31 @@ from agents.weatherAgent.medak.agent import root_agent as medak_weather
 from agents.weatherAgent.rangareddy.agent import root_agent as rangareddy_weather
 
 # Constants
-APP_NAME = "warangal_buffer_report"
+APP_NAME = "rangareddy_buffer_report"
 USER_ID = "buffer_user"
-SESSION_ID = "warangal_buffer_session"
+SESSION_ID = "rangareddy_buffer_session"
 session_service = InMemorySessionService()
 
 # Define report agent
 PROMPT = """
-You are a supply chain analyst focused on agricultural planning. Your task is to generate a detailed buffer stock management report for **Warangal**, focusing on tomato supply.
+You are a supply chain analyst focused on agricultural planning. Your task is to generate a detailed buffer stock management report for **rangareddy**, focusing on tomato supply.
 
 You are provided with:
-- **Actual tomato prices from the past week** for Warangal, Hyderabad, Nalgonda, Rangareddy, and Medak.
+- **Actual tomato prices from the past week** for Rangareddy, Hyderabad, Nalgonda, Warangal, and Medak.
 - **Predicted tomato prices for the next 7 days** for these districts.
 - **Current buffer stock levels (in tons)** for each of the above districts.
 - **Weather forecasts** for all districts.
 
 Your objectives are:
-1. Analyze **Warangal’s** tomato price trends using both actual and predicted data.
+1. Analyze **rangareddy’s** tomato price trends using both actual and predicted data.
 2. Evaluate **weather conditions** and their potential impact on supply and demand in Warangal.
-3. Use buffer stock levels and price trends from **neighboring districts** (Hyderabad, Nalgonda, Rangareddy, Medak) to assess potential:
-   - **Risks or opportunities** for Warangal’s buffer planning.
+3. Use buffer stock levels and price trends from **neighboring districts** (Hyderabad, Nalgonda, Warangal, Medak) to assess potential:
+   - **Risks or opportunities** for rangareddy’s buffer planning.
    - **Inter-district mobilization** if needed (e.g., if another district has excess stock and stable prices).
 4. Provide a recommendation on:
-   - Whether Warangal’s buffer is **sufficient, excessive, or insufficient**.
+   - Whether rangareddy’s buffer is **sufficient, excessive, or insufficient**.
    - Any **action plan** (e.g., procure more stock, transfer from other regions, reduce storage).
-5. Keep the focus of the analysis on Warangal, but use the other districts for supporting context.
+5. Keep the focus of the analysis on rangareddy, but use the other districts for supporting context.
 
 The final report must be:
 - **Clear, structured, and actionable**.
@@ -65,7 +65,7 @@ root_agent = LlmAgent(
 )
 
 
-async def warangal_report(
+async def rangareddy_report(
     warangal_last_week_actual,
     warangal_next_week_pred,
     hyderabad_last_week_actual,
@@ -147,6 +147,10 @@ async def warangal_report(
         f"- Nalgonda: {nalgonda_weather_report}\n"
         f"- Rangareddy: {rangareddy_weather_report}\n"
         f"- Medak: {medak_weather_report}\n"
+    )
+
+    await session_service.create_session(
+        app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID
     )
 
     runner = Runner(
