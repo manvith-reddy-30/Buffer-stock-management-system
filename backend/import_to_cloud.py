@@ -9,7 +9,6 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 
-# List of your district files , "medak", "nalgonda", "rangareddy", "warangal"
 districts = ["hyderabad"]
 
 for district in districts:

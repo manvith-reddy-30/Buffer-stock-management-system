@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <div>
       <button onClick={moveToAdmin}>Admin</button>
-      <button onClick={moveToPredictions}>See predictions</button>
+      <button onClick={moveToPredictions}>Analyst</button>
     </div>
   );
 };
