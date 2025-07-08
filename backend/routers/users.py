@@ -15,6 +15,7 @@ class user(BaseModel):
 class authUser(BaseModel):
     govt_id:int
     password:str
+    user_type :str
 
 router = APIRouter()
 def get_db():
@@ -48,11 +49,17 @@ def create_user(user_data: user, db: Session = Depends(get_db)):
 
 @router.post("/auth")
 def authenticate_user(user_data: authUser, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.govt_id == user_data.govt_id, User.password == user_data.password).first()
-    if user:
-        return {"message": "User authenticated successfully", "user": user}
-    else:
+    # First, check if user exists with given govt_id and password
+    user = db.query(User).filter(
+        User.govt_id == user_data.govt_id,
+        User.password == user_data.password
+    ).first()
+
+    if not user:
         raise HTTPException(status_code=404, detail="Invalid username or password")
 
+    # Then, check if user_type matches
+    if user.user_type != user_data.user_type:
+        raise HTTPException(status_code=403, detail=f"You are not authorized as {user_data.user_type}")
 
-
+    return {"message": "User authenticated successfully", "user": user}

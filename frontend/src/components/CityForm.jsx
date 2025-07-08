@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react'; // Import useEffect
-import './CityForm.css'; // Import the CSS file
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+import './CityForm.css';
 
 const CityForm = () => {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -15,19 +17,6 @@ const CityForm = () => {
     date: '',
     buffer_quantity: ''
   });
-
-  const [alert, setAlert] = useState({ message: '', type: '' });
-
-  // useEffect to manage alert visibility
-  useEffect(() => {
-    if (alert.message) {
-      const timer = setTimeout(() => {
-        setAlert({ message: '', type: '' }); // Clear the alert after 5 seconds
-      }, 5000); // 5000 milliseconds = 5 seconds
-
-      return () => clearTimeout(timer); // Cleanup the timer if component unmounts or alert changes
-    }
-  }, [alert]); // Re-run effect whenever the alert state changes
 
   // Handle input changes for price form
   const handleChange = (e) => {
@@ -48,7 +37,6 @@ const CityForm = () => {
   // Submit price data
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setAlert({ message: '', type: '' }); // Clear previous alerts immediately
 
     const data = {
       date: formData.date,
@@ -65,24 +53,23 @@ const CityForm = () => {
       });
 
       if (response.ok) {
-        setAlert({ message: "Daily Price Data Submitted Successfully!", type: "success" });
+        toast.success("✅ Daily Price Data Submitted Successfully!");
         setFormData({ city: '', date: '', price: '' }); // clear form
       } else if (response.status === 409) {
         const resData = await response.json();
-        setAlert({ message: resData.detail || "Daily Price Entry already exists for this date and city.", type: "error" });
+        toast.error(resData.detail || "❌ Daily Price Entry already exists for this date and city.");
       } else {
-        setAlert({ message: "Daily Price Submission Failed. Please try again.", type: "error" });
+        toast.error("❌ Daily Price Submission Failed. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting price:", error);
-      setAlert({ message: "Daily Price Server Error. Please try again later.", type: "error" });
+      toast.error("❌ Daily Price Server Error. Please try again later.");
     }
   };
 
   // Submit buffer quantity data
   const handleBufferSubmit = async (e) => {
     e.preventDefault();
-    setAlert({ message: '', type: '' }); // Clear previous alerts immediately
 
     const data = {
       city: bufferFormData.city,
@@ -101,27 +88,22 @@ const CityForm = () => {
       });
 
       if (response.ok) {
-        setAlert({ message: "Buffer Quantity Data Submitted Successfully!", type: "success" });
+        toast.success("✅ Buffer Quantity Data Submitted Successfully!");
         setBufferFormData({ city: '', date: '', buffer_quantity: '' }); // clear form
       } else if (response.status === 409) {
         const resData = await response.json();
-        setAlert({ message: resData.detail || "Buffer Quantity Entry already exists for this date and city.", type: "error" });
+        toast.error(resData.detail || "❌ Buffer Quantity Entry already exists for this date and city.");
       } else {
-        setAlert({ message: "Buffer Quantity Submission Failed. Please try again.", type: "error" });
+        toast.error("❌ Buffer Quantity Submission Failed. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting buffer:", error);
-      setAlert({ message: "Buffer Quantity Server Error. Please try again later.", type: "error" });
+      toast.error("❌ Buffer Quantity Server Error. Please try again later.");
     }
   };
 
   return (
     <div className="city-form-container">
-      {alert.message && (
-        <div className={`alert ${alert.type}`}>
-          {alert.message}
-        </div>
-      )}
 
       {/* Price Form */}
       <form onSubmit={handleSubmit} className="form-card">
@@ -169,7 +151,7 @@ const CityForm = () => {
             onChange={handleChange}
             required
             min="0"
-            step="10"
+            step="1"
             className="form-control"
             placeholder="e.g., 500"
           />

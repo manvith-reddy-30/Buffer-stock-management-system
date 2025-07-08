@@ -5,18 +5,14 @@ import './Home.css';
 const Home = () => {
   const navigate = useNavigate();
 
-  const moveToAdmin = () => {
-    navigate('/admin');
-  };
-
-  const moveToPredictions = () => {
-    navigate('/predictions');
+  const moveToAuth = (role) => {
+    navigate('/auth', { state: { role } }); // Pass role as state
   };
 
   return (
     <div>
-      <button onClick={moveToAdmin}>Admin</button>
-      <button onClick={moveToPredictions}>Analyst</button>
+      <button onClick={() => moveToAuth('Admin')}>Admin</button>
+      <button onClick={() => moveToAuth('Analyst')}>Analyst</button>
     </div>
   );
 };
